@@ -136,13 +136,24 @@ set ffs=unix,dos,mac
 "----------------------------------------------------------------------
 if has('folding')
 	" 允许代码折叠
-	set foldenable
+	" set foldenable
 
 	" 代码折叠默认使用缩进
-	set fdm=indent
+	" set fdm=indent
 
 	" 默认打开所有缩进
-	set foldlevel=99
+	"  set foldlevel=99
+
+	set foldenable              " 开始折叠
+	set foldmethod=syntax       " 设置语法折叠
+	set foldcolumn=0            " 设置折叠区域的宽度
+	setlocal foldlevel=1        " 设置折叠层数为
+	set foldlevelstart=99       " 打开文件是默认不折叠代码
+
+	"set foldclose=all          " 设置为自动关闭折叠
+	nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+	" 用空格键来开关折叠
+
 endif
 
 
@@ -168,5 +179,6 @@ set wildignore+=*.msi,*.crx,*.deb,*.vfd,*.apk,*.ipa,*.bin,*.msu
 set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
-
-
+" ZQB
+set hidden
+set mouse=a

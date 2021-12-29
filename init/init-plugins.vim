@@ -1,6 +1,6 @@
 "======================================================================
 "
-" init-plugins.vim - 
+" init-plugins.vim -
 "
 " Created by skywind on 2018/05/31
 " Last Modified: 2018/06/10 23:11
@@ -36,9 +36,12 @@ endfunc
 "----------------------------------------------------------------------
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 
+"old config
+" Plug 'humiaozuzu/TabBar'
+
 
 "----------------------------------------------------------------------
-" 默认插件 
+" 默认插件
 "----------------------------------------------------------------------
 
 " 全文快速移动，<leader><leader>f{char} 即可触发
@@ -123,7 +126,7 @@ if index(g:bundle_group, 'basic') >= 0
 	nmap <m-e> <Plug>(choosewin)
 
 	" 默认不显示 startify
-	let g:startify_disable_at_vimenter = 1
+	let g:startify_disable_at_vimenter = 0
 	let g:startify_session_dir = '~/.vim/session'
 
 	" 使用 <space>ha 清除 errormarker 标注的错误
@@ -169,7 +172,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 
 	" 提供 gist 接口
 	Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
-	
+
 	" ALT_+/- 用于按分隔符扩大缩小 v 选区
 	map <m-=> <Plug>(expand_region_expand)
 	map <m--> <Plug>(expand_region_shrink)
@@ -198,7 +201,7 @@ if index(g:bundle_group, 'tags') >= 0
 	let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 	" 默认禁用自动生成
-	let g:gutentags_modules = [] 
+	let g:gutentags_modules = []
 
 	" 如果有 ctags 可执行就允许动态生成 ctags 文件
 	if executable('ctags')
@@ -215,6 +218,7 @@ if index(g:bundle_group, 'tags') >= 0
 	let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 	let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 	let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+	let g:gutentags_ctags_extra_args += ['--exclude=.history']
 
 	" 使用 universal-ctags 的话需要下面这行，请反注释
 	" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
@@ -275,7 +279,7 @@ if index(g:bundle_group, 'filetypes') >= 0
 	" rust 语法增强
 	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
-	" vim org-mode 
+	" vim org-mode
 	Plug 'jceb/vim-orgmode', { 'for': 'org' }
 endif
 
@@ -299,6 +303,8 @@ if index(g:bundle_group, 'airline') >= 0
 	let g:airline#extensions#fugitiveline#enabled = 0
 	let g:airline#extensions#csv#enabled = 0
 	let g:airline#extensions#vimagit#enabled = 0
+	let g:airline#extensions#tabline#enabled = 1
+	let g:airline#extensions#tabline#formatter = 'unique_tail'
 endif
 
 
@@ -362,13 +368,13 @@ if index(g:bundle_group, 'ale') >= 0
 
 	" 编辑不同文件类型需要的语法检查器
 	let g:ale_linters = {
-				\ 'c': ['gcc', 'cppcheck'], 
-				\ 'cpp': ['gcc', 'cppcheck'], 
-				\ 'python': ['flake8', 'pylint'], 
-				\ 'lua': ['luac'], 
+				\ 'c': ['gcc', 'cppcheck'],
+				\ 'cpp': ['gcc', 'cppcheck'],
+				\ 'python': ['flake8', 'pylint'],
+				\ 'lua': ['luac'],
 				\ 'go': ['go build', 'gofmt'],
 				\ 'java': ['javac'],
-				\ 'javascript': ['eslint'], 
+				\ 'javascript': ['eslint'],
 				\ }
 
 
@@ -415,6 +421,18 @@ endif
 "----------------------------------------------------------------------
 " LeaderF：CtrlP / FZF 的超级代替者，文件模糊匹配，tags/函数名 选择
 "----------------------------------------------------------------------
+"<leader>f : 检索文件
+"<leader>b : 检索buffer
+"<C-C>, <ESC> : 退出 LeaderF.
+"<C-R> : 在模糊匹配和正则式匹配之间切换
+"<C-F> : 在全路径搜索和名字搜索之间切换
+"<Tab> : 在检索模式和选择模式之间切换
+"<C-J>, <C-K> : 在结果列表里选择
+"<C-X> : 在水平窗口打开
+"<C-]> : 在垂直窗口打开
+"<C-T> : 在新标签打开
+"<C-P> : 预览结果
+"
 if index(g:bundle_group, 'leaderf') >= 0
 	" 如果 vim 支持 python 则启用  Leaderf
 	if has('python') || has('python3')
@@ -519,6 +537,23 @@ endif
 
 
 "----------------------------------------------------------------------
+" ZQB历史插件
+"----------------------------------------------------------------------
+" 多光标编辑 选中 Ctrl+N Ctrl+I
+Plug 'terryma/vim-multiple-cursors'
+" 全局搜索,需要apt-get install ack-grep
+Plug 'mileszs/ack.vim'
+" 标记行尾空格，leader+space 清除
+Plug 'bronson/vim-trailing-whitespace'
+"YCM
+Plug 'Valloric/YouCompleteMe'
+" 异步执行，需vim8
+Plug 'skywind3000/asyncrun.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
+
+"----------------------------------------------------------------------
 " 结束插件安装
 "----------------------------------------------------------------------
 call plug#end()
@@ -553,16 +588,16 @@ let g:ycm_semantic_triggers =  {
 "----------------------------------------------------------------------
 " Ycm 白名单（非名单内文件不启用 YCM），避免打开个 1MB 的 txt 分析半天
 "----------------------------------------------------------------------
-let g:ycm_filetype_whitelist = { 
+let g:ycm_filetype_whitelist = {
 			\ "c":1,
-			\ "cpp":1, 
+			\ "cpp":1,
 			\ "objc":1,
 			\ "objcpp":1,
 			\ "python":1,
 			\ "java":1,
 			\ "javascript":1,
 			\ "coffee":1,
-			\ "vim":1, 
+			\ "vim":1,
 			\ "go":1,
 			\ "cs":1,
 			\ "lua":1,
@@ -608,4 +643,22 @@ let g:ycm_filetype_whitelist = {
 			\ "ps1":1,
 			\ }
 
+let g:mwPalettes = {
+\   'mypalette': [
+		\   { 'ctermbg':'Magenta',    'ctermfg':'Black', 'guibg':'#FFA1C6', 'guifg':'#80005D' },
+		\   { 'ctermbg':'DarkCyan',   'ctermfg':'Black', 'guibg':'#D2A1FF', 'guifg':'#420080' },
+		\   { 'ctermbg':'DarkBlue',   'ctermfg':'Black', 'guibg':'#A1DBFF', 'guifg':'#004E80' },
+		\   { 'ctermbg':'DarkMagenta','ctermfg':'Black', 'guibg':'#A29CCF', 'guifg':'#120080' },
+		\   { 'ctermbg':'DarkRed',    'ctermfg':'Black', 'guibg':'#F5A1FF', 'guifg':'#720080' },
+		\   { 'ctermbg':'Brown',      'ctermfg':'Black', 'guibg':'#FFC4A1', 'guifg':'#803000' },
+		\   { 'ctermbg':'DarkGreen',  'ctermfg':'Black', 'guibg':'#D0FFA1', 'guifg':'#3F8000' },
+		\   { 'ctermbg':'Red',        'ctermfg':'Black', 'guibg':'#F3FFA1', 'guifg':'#6F8000' },
+		\   { 'ctermbg':'Blue',       'ctermfg':'White', 'guibg':'#0000FF', 'guifg':'#F0F0FF' },
+		\   { 'ctermbg':'DarkRed',    'ctermfg':'White', 'guibg':'#FF0000', 'guifg':'#FFFFFF' },
+		\   { 'ctermbg':'DarkGreen',  'ctermfg':'White', 'guibg':'#00FF00', 'guifg':'#355F35' },
+		\   { 'ctermbg':'DarkYellow', 'ctermfg':'White', 'guibg':'#FFFF00', 'guifg':'#6F6F4C' },
+\   ]
+\}
 
+" Make it the default:
+let g:mwDefaultHighlightingPalette = 'mypalette'

@@ -330,4 +330,38 @@ else
 				\ '<root>' <cr>
 endif
 
+let mapleader=";"
 
+map <leader><space> :FixWhitespace<cr>
+
+map <C-K> :bn<cr>
+map <C-J> :bp<cr>
+
+" Ack 代替grep搜索代码
+" nnoremap <leader>a :Ack
+nnoremap <leader>a :s/\.*$/。/<cr>;
+nnoremap <leader>l :s/\:*$/：/<cr>j
+" 搜索当前光标所在单词
+nnoremap <leader>aa yaw:Ack! <C-R>0<cr>
+vnoremap <leader>aa y:Ack! <C-R>0<cr>
+nnoremap <leader>bb yaw:grep <C-R>0 . -nrI<cr>
+vnoremap <leader>bb y:grep <C-R>0 . -nrI<cr>
+
+map <leader>aaa :Ack!<Space>
+"高亮搜索关键词
+let g:ackhighlight = 1
+"修改快速预览窗口高度为15
+let g:ack_qhandler = "botright copen 15"
+"在QuickFix窗口使用快捷键以后，自动关闭QuickFix窗口
+let g:ack_autoclose = 1
+"使用ack的空白搜索，即不添加任何参数时对光标下的单词进行搜索，默认值为1，表示开启，置0以后使用空白搜索将返回错误信息
+let g:ack_use_cword_for_empty_search = 1
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+endif
+
+nnoremap <leader>v V`]
+" 内置grep搜索
+nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
+
+nnoremap <C-E> <C-W>w
