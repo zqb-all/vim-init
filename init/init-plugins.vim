@@ -552,6 +552,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
+Plug 'voldikss/vim-translator'
 
 "----------------------------------------------------------------------
 " 结束插件安装
