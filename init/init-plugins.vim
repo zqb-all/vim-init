@@ -549,7 +549,10 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'Valloric/YouCompleteMe'
 " 异步执行，需vim8
 Plug 'skywind3000/asyncrun.vim'
+" 注释
 Plug 'scrooloose/nerdcommenter'
+" 禁用默认按键，跟tag冲突
+let g:NERDCreateDefaultMappings = 0
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'voldikss/vim-translator'

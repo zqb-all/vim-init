@@ -374,3 +374,7 @@ vmap <silent> <Leader>tt <Plug>TranslateV
 " Display translation in a window
 nmap <silent> <Leader>tw <Plug>TranslateW
 vmap <silent> <Leader>tw <Plug>TranslateWV
+
+" 注释
+nmap <leader>c<space>   <Plug>NERDCommenterToggle
+vmap <leader>c<space>   <Plug>NERDCommenterToggle<CR>gv
